@@ -1,8 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 import Calendar from './features/calendar/Calendar';
 import CalendarReminders from './features/calendar/CalendarReminders';
 import Focus from './features/focus/Focus';
+import Profile from './features/profile/Profile';
+import { readProfile, writeProfile } from './features/profile/profile.storage';
+import type { LocalProfile } from './features/profile/profile.storage';
 
 type IconName = 'home' | 'calendar' | 'focus' | 'social' | 'profile';
 
@@ -75,7 +78,35 @@ const initialGoals = [
 export default function App() {
   const [goals, setGoals] = useState(initialGoals);
   const [notice, setNotice] = useState('');
-  const [activePage, setActivePage] = useState<'home' | 'calendar' | 'focus'>('home');
+  const [activePage, setActivePage] = useState<'home' | 'calendar' | 'focus' | 'profile'>('home');
+
+  const [profileState, setProfileState] = useState(readProfile);
+  const profile = profileState.profile;
+
+  useEffect(() => {
+    const refresh = (event: StorageEvent) => {
+      if (event.key === 'studonium.profile.v1' || event.key === null) setProfileState(readProfile());
+    };
+    window.addEventListener('storage', refresh);
+    return () => window.removeEventListener('storage', refresh);
+  }, []);
+
+  function saveLocalProfile(next: LocalProfile): boolean {
+    if (readProfile().error) return false;
+    try {
+      writeProfile(next);
+      setProfileState({ profile: next, error: '' });
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  function openFocus() {
+    setActivePage('focus');
+    setNotice('');
+    document.getElementById('inicio')?.focus();
+  }
 
   const completed = goals.filter((goal) => goal.done).length;
 
@@ -113,7 +144,7 @@ export default function App() {
               className={`nav-item ${item.name === activePage ? 'active' : ''}`}
               aria-current={item.name === activePage ? 'page' : undefined}
               onClick={() => {
-                if (item.name === 'home' || item.name === 'calendar' || item.name === 'focus') {
+                if (item.name === 'home' || item.name === 'calendar' || item.name === 'focus' || item.name === 'profile') {
                   setActivePage(item.name);
                   setNotice('');
                   document.getElementById('inicio')?.focus();
@@ -148,21 +179,22 @@ export default function App() {
           <span className="page-label">
             {activePage === 'home'
               ? 'Tu espacio de estudio'
-              : activePage === 'calendar' ? 'Tu agenda personal' : 'Tu espacio de concentración'}
+              : activePage === 'calendar' ? 'Tu agenda personal' : activePage === 'profile' ? 'Tu pequeño universo' : 'Tu espacio de concentración'}
           </span>
           <div className="user-area">
-            <span className="demo-tag">Vista de ejemplo</span>
+            <span className="demo-tag">{activePage === 'home' ? 'Vista de ejemplo' : 'Modo local'}</span>
             <button
-              className="avatar"
+              className="avatar studonium-profile-topbar-avatar"
               type="button"
-              aria-label="Abrir perfil de ejemplo de Alex"
-              onClick={() => showUpcoming('Tu perfil')}
+              aria-label={`Abrir perfil de ${profile.displayName}`}
+              onClick={() => { setActivePage('profile'); setNotice(''); document.getElementById('inicio')?.focus(); }}
             >
-              A
+              {profile.avatar ? <img src={profile.avatar} alt="" /> : profile.displayName.slice(0, 1).toUpperCase()}
             </button>
           </div>
         </header>
         <CalendarReminders />
+        {activePage === 'profile' && <Profile profile={profile} storageWarning={profileState.error} onSave={saveLocalProfile} onOpenFocus={openFocus} />}
         {activePage === 'calendar' && <Calendar />}
         <div hidden={activePage !== 'focus'}>
           <Focus />
@@ -173,7 +205,7 @@ export default function App() {
             <div>
               <p className="eyebrow">UN RATITO PARA TI Y TUS METAS</p>
               <h1 id="greeting-title">
-                Hola, Alex{' '}
+                Hola, {profile.displayName}{' '}
                 <span className="wave" aria-hidden="true">
                   ✦
                 </span>

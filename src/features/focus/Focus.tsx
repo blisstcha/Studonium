@@ -1,7 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { FormEvent } from 'react';
 import { advanceTimer, createTimer, formatCountdown, pauseTimer, startTimer, validMinutes } from './focus.timer';
 import './focus.css';
+import { saveStudySession } from '../profile/activity.storage';
+import type { StudySession } from '../profile/activity.storage';
 
 const labels = {
   ready: 'Tu momento de calma empieza aquí.',
@@ -15,6 +17,8 @@ export default function Focus() {
   const [timer, setTimer] = useState(() => createTimer(30));
   const [error, setError] = useState('');
   const [confirmReset, setConfirmReset] = useState(false);
+  const pendingSession = useRef<StudySession | null>(null);
+  const [historyWarning, setHistoryWarning] = useState('');
   const minutes = Number(minutesInput);
   const valid = validMinutes(minutes);
   const locked = timer.phase === 'running' || timer.phase === 'paused';
@@ -36,19 +40,46 @@ export default function Focus() {
     };
   }, [timer.phase]);
 
+  function recordCompletedSession(): boolean {
+    const session = pendingSession.current;
+    if (!session) return true;
+    if (!session.completedAt) session.completedAt = new Date().toISOString();
+    try {
+      saveStudySession(session);
+      pendingSession.current = null;
+      setHistoryWarning('');
+      return true;
+    } catch {
+      setHistoryWarning('Has completado la sesión, pero no se ha podido guardar en tu perfil. Comprueba el almacenamiento del navegador y reintenta antes de cerrar la página.');
+      return false;
+    }
+  }
+
+  useEffect(() => {
+    if (timer.phase === 'completed') recordCompletedSession();
+  }, [timer.phase]);
+
   function beginSession(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (locked) return;
+    if (timer.phase === 'completed' && !recordCompletedSession()) return;
     if (!valid) {
       setError('Elige entre 30 y 120 minutos, en saltos de 10.');
       return;
     }
     setError('');
     setConfirmReset(false);
+    pendingSession.current = {
+      id: typeof crypto.randomUUID === 'function' ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(36).slice(2)}`,
+      minutes,
+      completedAt: '',
+    };
+    setHistoryWarning('');
     setTimer(startTimer(createTimer(minutes), performance.now()));
   }
 
   function resetSession() {
+    pendingSession.current = null;
     setTimer(createTimer(timer.durationMs / 60_000));
     setMinutesInput(String(timer.durationMs / 60_000));
     setConfirmReset(false);
@@ -94,6 +125,7 @@ export default function Focus() {
           </div>
 
           <p className="studonium-focus-encouragement" role="status">{labels[timer.phase]}</p>
+          {historyWarning && <div className="studonium-focus-history-warning" role="alert"><p>{historyWarning}</p><button type="button" className="studonium-focus-secondary" onClick={() => recordCompletedSession()}>Reintentar guardado</button></div>}
 
           {locked && (
             <div className="studonium-focus-controls">
@@ -166,7 +198,7 @@ export default function Focus() {
         </aside>
       </div>
 
-      <p className="studonium-focus-footnote">Las pausas no suman tiempo. Puedes visitar Inicio o Agenda sin perder la cuenta atrás. Al recargar o cerrar la página, esta primera versión reinicia la sesión.</p>
+      <p className="studonium-focus-footnote">Las pausas no suman tiempo. Puedes visitar otras secciones sin perder la cuenta atrás. Las sesiones completadas se guardan en tu perfil local; al recargar o cerrar la página se reinicia la sesión en curso.</p>
     </section>
   );
 }
