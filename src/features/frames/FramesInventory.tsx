@@ -30,7 +30,7 @@ export default function FramesInventory({ profile, wallet }: { profile: LocalPro
       <div className="studonium-frames-inventory-grid">
         {owned.map((frame) => <article key={frame.id} className={`studonium-frame-inventory-card ${wallet.equippedFrameId === frame.id ? 'is-equipped' : ''}`}>
           <div className="studonium-frame-preview"><FramedAvatar src={profile.avatar} name={profile.displayName} frameId={frame.id} /></div>
-          <div><span className="studonium-frame-owned-label">{wallet.equippedFrameId === frame.id ? 'EN USO' : 'ADQUIRIDO'}</span><h3>{frame.name}</h3><p>Tu primer marco, un regalo para tu inventario.</p><button type="button" aria-pressed={wallet.equippedFrameId === frame.id} onClick={() => toggleFrame(frame.id)}>{wallet.equippedFrameId === frame.id ? 'Quitar marco' : 'Usar marco'}</button></div>
+          <div><span className="studonium-frame-owned-label">{wallet.equippedFrameId === frame.id ? 'EN USO' : 'ADQUIRIDO'}</span><h3>{frame.name}</h3><p>Disponible para personalizar tu foto de perfil.</p><button type="button" aria-pressed={wallet.equippedFrameId === frame.id} onClick={() => toggleFrame(frame.id)}>{wallet.equippedFrameId === frame.id ? 'Quitar marco' : 'Usar marco'}</button></div>
         </article>)}
       </div>
       {!wallet.error && owned.length === 0 && <p className="studonium-frames-message">Los marcos que adquieras en la tienda aparecerán aquí.</p>}

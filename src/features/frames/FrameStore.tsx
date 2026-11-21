@@ -45,7 +45,7 @@ export default function FrameStore({ profile, wallet, onOpenInventory }: FrameSt
           </article>;
         })}
       </div>
-      <p className="studonium-shop-footnote">Este primer diseño ya está adquirido como regalo, sin descontarte monedas. Las compras de marcos usan únicamente las monedas locales de la app, sin pagos reales.</p>
+      <p className="studonium-shop-footnote">Los diseños adquiridos están en tu inventario de Perfil. Las compras de marcos usan únicamente las monedas locales de la app, sin pagos reales.</p>
     </div>
   );
 }
