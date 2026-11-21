@@ -12,6 +12,7 @@ import Shop from './features/shop/Shop';
 import { useWallet } from './features/shop/useWallet';
 import { formatCoins } from './features/shop/shop.catalog';
 import type { ShopCategory } from './features/shop/shop.catalog';
+import FramedAvatar from './features/frames/FramedAvatar';
 
 type IconName = 'home' | 'calendar' | 'focus' | 'social' | 'profile' | 'shop';
 
@@ -121,6 +122,16 @@ export default function App() {
     }
   }
 
+  function openFramesInventory() {
+    setActivePage('profile');
+    setNotice('');
+    window.requestAnimationFrame(() => {
+      const inventory = document.getElementById('profile-frames-inventory');
+      inventory?.focus({ preventScroll: true });
+      inventory?.scrollIntoView({ block: 'start' });
+    });
+  }
+
   function openFocus() {
     setActivePage('focus');
     setNotice('');
@@ -208,18 +219,18 @@ export default function App() {
             </div>
             <span className="demo-tag">{activePage === 'home' ? 'Vista de ejemplo' : 'Modo local'}</span>
             <button
-              className="avatar studonium-profile-topbar-avatar"
+              className={`avatar studonium-profile-topbar-avatar ${wallet.equippedFrameId ? 'has-frame' : ''}`}
               type="button"
               aria-label={`Abrir perfil de ${profile.displayName}`}
               onClick={() => { setActivePage('profile'); setNotice(''); document.getElementById('inicio')?.focus(); }}
             >
-              {profile.avatar ? <img src={profile.avatar} alt="" /> : profile.displayName.slice(0, 1).toUpperCase()}
+              <FramedAvatar src={profile.avatar} name={profile.displayName} frameId={wallet.equippedFrameId} decorative />
             </button>
           </div>
         </header>
         <CalendarReminders />
-        {activePage === 'shop' && <Shop category={shopCategory} onCategoryChange={setShopCategory} walletError={wallet.error} />}
-        {activePage === 'profile' && <Profile profile={profile} storageWarning={profileState.error} onSave={saveLocalProfile} onOpenFocus={openFocus} />}
+        {activePage === 'shop' && <Shop category={shopCategory} onCategoryChange={setShopCategory} wallet={wallet} profile={profile} onOpenInventory={openFramesInventory} />}
+        {activePage === 'profile' && <Profile profile={profile} storageWarning={profileState.error} onSave={saveLocalProfile} onOpenFocus={openFocus} wallet={wallet} />}
         {activePage === 'calendar' && <Calendar />}
         <div hidden={activePage !== 'focus'}>
           <Focus onSessionCompleted={setSessionToReview} />

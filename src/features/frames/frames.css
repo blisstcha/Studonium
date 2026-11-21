@@ -1,0 +1,49 @@
+.studonium-framed-avatar { position: relative; isolation: isolate; display: block; width: 100%; height: 100%; aspect-ratio: 1; }
+.studonium-framed-avatar-photo { position: absolute; inset: 0; display: grid; place-items: center; overflow: hidden; border-radius: 50%; background: #e1cdec; color: #956eaa; font-size: inherit; font-weight: 700; }
+.studonium-framed-avatar-photo > img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.studonium-framed-avatar.has-frame > .studonium-framed-avatar-photo { left: 12%; top: 16%; right: auto; bottom: auto; width: 76%; height: 76%; }
+.studonium-framed-avatar > .studonium-framed-avatar-art { position: absolute; inset: 0; z-index: 1; display: block; width: 100%; height: 100%; object-fit: contain; pointer-events: none; user-select: none; }
+.studonium-profile-avatar.has-frame { width: 156px; height: 156px; border: 0; background: transparent; box-shadow: none; }
+.studonium-profile-avatar.has-frame .studonium-profile-avatar-camera { right: 3px; bottom: 9px; z-index: 2; }
+.studonium-profile-topbar-avatar.has-frame { width: 49px; height: 49px; padding: 0; overflow: visible; border: 0; background: transparent; box-shadow: none; }
+.studonium-profile-post-avatar.has-frame { width: 49px; height: 49px; overflow: visible; border: 0; background: transparent; }
+.studonium-frames-inventory { margin: 24px 0; padding: 25px; border: 1px solid #e7d5e9; border-radius: 22px; background: #fffafb; scroll-margin-top: 25px; }
+.studonium-frames-inventory:focus { outline: 2px solid #bd9ccf; outline-offset: 4px; }
+.studonium-frames-heading { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 18px; }
+.studonium-frames-heading > div > p { margin: 0 0 8px; color: #aa8db6; font-size: 8px; font-weight: 750; letter-spacing: 1.3px; }
+.studonium-frames-heading h2 { margin: 0; color: #8d659e; font-size: 21px; letter-spacing: -.5px; }
+.studonium-frames-heading > span { padding: 6px 10px; border-radius: 20px; background: #f2e6f7; color: #ac88bc; font-size: 10px; }
+.studonium-frames-inventory-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.studonium-frame-inventory-card { display: flex; align-items: center; gap: 18px; min-width: 0; padding: 18px; border: 1px solid #edd9df; border-radius: 18px; background: #fff5f2; }
+.studonium-frame-inventory-card.is-equipped { border-color: #cbb1dc; background: #faf2fd; }
+.studonium-frame-preview { flex-shrink: 0; width: 128px; height: 128px; font-size: 36px; }
+.studonium-frame-inventory-card h3 { margin: 8px 0; color: #916b96; font-size: 16px; }
+.studonium-frame-inventory-card p { margin: 0 0 13px; color: #b08d9d; font-size: 10px; line-height: 1.8; }
+.studonium-frame-owned-label { display: inline-block; padding: 5px 8px; border-radius: 7px; background: #f1e3ee; color: #a57fa9; font-size: 8px; font-weight: 750; letter-spacing: .7px; }
+.studonium-frame-inventory-card button { min-height: 41px; padding: 9px 14px; border: 1px solid #d5bce1; border-radius: 11px; background: #ebdcf5; color: #946ca8; font-size: 11px; font-weight: 700; }
+.studonium-frame-inventory-card button[aria-pressed="true"] { border-color: #c2a2d3; background: #e1ccec; color: #815895; }
+.studonium-frames-message { margin: 8px 0 17px; color: #a88ab4; font-size: 11px; line-height: 1.8; }
+.studonium-frames-message:empty { display: none; }
+.studonium-frames-error { margin: 12px 0; padding: 12px; border: 1px solid #e6bdc9; border-radius: 11px; background: #fff0f4; color: #a5657c; font-size: 11px; line-height: 1.8; }
+.studonium-frame-store-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.studonium-frame-store-card { min-width: 0; padding: 24px; border: 1px solid #ecd2dc; border-radius: 23px; background: linear-gradient(145deg, #fff7ee, #fceff6); text-align: center; }
+.studonium-frame-store-art { width: 190px; max-width: 100%; aspect-ratio: 1; margin: 0 auto 20px; font-size: 50px; }
+.studonium-frame-store-card h3 { margin: 12px 0 9px; color: #996d9e; font-size: 22px; letter-spacing: -.4px; }
+.studonium-frame-store-card > p { margin: 0 0 16px; color: #b58f9e; font-size: 11px; line-height: 1.9; }
+.studonium-frame-price { display: block; margin: 18px 0; color: #b18a54; font-size: 16px; }
+.studonium-frame-store-card > button { width: 100%; }
+.studonium-frame-store-card button:disabled { opacity: .5; cursor: not-allowed; }
+.studonium-frame-buy-confirm { padding: 12px; margin-top: 15px; border: 1px solid #e3cae8; border-radius: 12px; background: #fff9fd; }
+.studonium-frame-buy-confirm p { margin: 0 0 10px; color: #a183ae; font-size: 11px; line-height: 1.7; }
+.studonium-frame-buy-confirm button { min-height: 37px; padding: 8px; margin: 3px; border: 0; border-radius: 8px; background: #eee0f5; color: #9473a6; font-size: 11px; }
+@media (max-width: 1150px) { .studonium-frames-inventory-grid, .studonium-frame-store-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .studonium-frame-inventory-card { flex-direction: column; text-align: center; } }
+@media (max-width: 700px) {
+  .studonium-frames-inventory { padding: 21px; }
+  .studonium-frames-inventory-grid, .studonium-frame-store-grid { grid-template-columns: minmax(0, 1fr); }
+  .studonium-profile-avatar.has-frame { width: 128px; height: 128px; }
+  .studonium-profile-topbar-avatar.has-frame { width: 44px; height: 44px; }
+  .studonium-frame-inventory-card { flex-direction: row; text-align: left; gap: 13px; padding: 15px; }
+  .studonium-frame-preview { width: 100px; height: 100px; font-size: 28px; }
+  .studonium-frame-inventory-card h3 { font-size: 14px; }
+  .studonium-frame-inventory-card button { min-height: 44px; }
+}

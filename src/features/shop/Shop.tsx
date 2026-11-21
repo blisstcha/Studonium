@@ -2,12 +2,17 @@ import { useEffect, useRef, useState } from 'react';
 import type { KeyboardEvent } from 'react';
 import { COIN_PACKAGES, formatCoins, formatPrice } from './shop.catalog';
 import type { ShopCategory } from './shop.catalog';
+import FrameStore from '../frames/FrameStore';
+import type { LocalProfile } from '../profile/profile.storage';
+import type { WalletController } from './useWallet';
 import './shop.css';
 
 interface ShopProps {
   category: ShopCategory;
   onCategoryChange: (category: ShopCategory) => void;
-  walletError: string;
+  wallet: WalletController;
+  profile: LocalProfile;
+  onOpenInventory: () => void;
 }
 
 function PackageNotice({ coins, onClose }: { coins: number; onClose: () => void }) {
@@ -31,7 +36,7 @@ function PackageNotice({ coins, onClose }: { coins: number; onClose: () => void 
   );
 }
 
-export default function Shop({ category, onCategoryChange, walletError }: ShopProps) {
+export default function Shop({ category, onCategoryChange, wallet, profile, onOpenInventory }: ShopProps) {
   const [selectedPackage, setSelectedPackage] = useState<number | null>(null);
 
   function handleTabKey(event: KeyboardEvent<HTMLButtonElement>) {
@@ -52,7 +57,7 @@ export default function Shop({ category, onCategoryChange, walletError }: ShopPr
         <span className="studonium-shop-sticker">a little bit of magic ♡</span>
       </header>
 
-      {walletError && <p className="studonium-shop-error" role="alert">{walletError}</p>}
+      {wallet.error && <p className="studonium-shop-error" role="alert">{wallet.error}</p>}
 
       <div className="studonium-shop-tabs" role="tablist" aria-label="Categorías de la tienda">
         <button id="shop-tab-coins" type="button" role="tab" aria-selected={category === 'coins'} aria-controls="shop-panel" tabIndex={category === 'coins' ? 0 : -1} onClick={() => onCategoryChange('coins')} onKeyDown={handleTabKey}>Monedas</button>
@@ -79,7 +84,7 @@ export default function Shop({ category, onCategoryChange, walletError }: ShopPr
             <p className="studonium-shop-footnote">Catálogo de muestra. Los 500 de saldo inicial son monedas de ejemplo, sin valor monetario. Las compras aún no están activadas.</p>
           </>
         ) : (
-          <div className="studonium-shop-frames-empty"><h2>Marcos</h2><p>Los diseños para rodear tu foto de perfil llegarán próximamente.</p></div>
+          <FrameStore wallet={wallet} profile={profile} onOpenInventory={onOpenInventory} />
         )}
       </section>
 

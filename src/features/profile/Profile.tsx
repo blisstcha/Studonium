@@ -3,6 +3,9 @@ import type { ChangeEvent, FormEvent } from 'react';
 import type { LocalProfile } from './profile.storage';
 import { prepareProfileImage } from './profile.images';
 import ProfileActivity from './ProfileActivity';
+import FramedAvatar from '../frames/FramedAvatar';
+import FramesInventory from '../frames/FramesInventory';
+import type { WalletController } from '../shop/useWallet';
 import './profile.css';
 
 interface ProfileProps {
@@ -10,13 +13,14 @@ interface ProfileProps {
   storageWarning: string;
   onSave: (profile: LocalProfile) => boolean;
   onOpenFocus: () => void;
+  wallet: WalletController;
 }
 
 function CameraIcon() {
   return <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M3 7h4l2-3h6l2 3h4v13H3Z" /><circle cx="12" cy="13" r="4" /></svg>;
 }
 
-export default function Profile({ profile, storageWarning, onSave, onOpenFocus }: ProfileProps) {
+export default function Profile({ profile, storageWarning, onSave, onOpenFocus, wallet }: ProfileProps) {
   const avatarInput = useRef<HTMLInputElement>(null);
   const bannerInput = useRef<HTMLInputElement>(null);
   const [editing, setEditing] = useState(false);
@@ -90,7 +94,7 @@ export default function Profile({ profile, storageWarning, onSave, onOpenFocus }
 
         <div className="studonium-profile-identity-body">
           <div className="studonium-profile-avatar-row">
-            <div className="studonium-profile-avatar-wrap"><button type="button" className="studonium-profile-avatar" aria-label="Elegir foto de perfil" disabled={disabled} onClick={() => avatarInput.current?.click()}>{profile.avatar ? <img src={profile.avatar} alt={`Foto de ${profile.displayName}`} /> : <span aria-hidden="true">{profile.displayName.slice(0, 1).toUpperCase()}</span>}<span className="studonium-profile-avatar-camera"><CameraIcon /></span></button></div>
+            <div className="studonium-profile-avatar-wrap"><button type="button" className={`studonium-profile-avatar ${wallet.equippedFrameId ? 'has-frame' : ''}`}  aria-label="Elegir foto de perfil" disabled={disabled} onClick={() => avatarInput.current?.click()}><FramedAvatar src={profile.avatar} name={profile.displayName} frameId={wallet.equippedFrameId} decorative /><span className="studonium-profile-avatar-camera"><CameraIcon /></span></button></div>
             <button type="button" className="studonium-profile-secondary" disabled={disabled} onClick={openEditor}>Editar perfil ↗</button>
           </div>
 
@@ -115,7 +119,8 @@ export default function Profile({ profile, storageWarning, onSave, onOpenFocus }
 
       {editing && <form className="studonium-profile-card studonium-profile-edit-form" onSubmit={submitProfile} aria-labelledby="profile-edit-title"><h2 id="profile-edit-title">Dale tu toque</h2><fieldset disabled={disabled}><label>Nombre visible<input autoFocus required maxLength={40} value={displayName} onChange={(event) => setDisplayName(event.target.value)} autoComplete="nickname" /></label><label>Usuario<input required minLength={3} maxLength={25} value={username} onChange={(event) => setUsername(event.target.value)} autoCapitalize="none" spellCheck={false} aria-describedby="profile-username-help" /></label><p id="profile-username-help">Entre 3 y 24 letras, números o guiones bajos. Es un nombre local, todavía no una cuenta ni un usuario reservado.</p><label>Un poquito sobre ti<textarea rows={3} maxLength={160} value={bio} onChange={(event) => setBio(event.target.value)} /></label><div className="studonium-profile-edit-actions"><button type="button" className="studonium-profile-secondary" onClick={() => { setEditing(false); setError(''); }}>Cancelar</button><button type="submit" className="studonium-profile-primary">Guardar perfil</button></div></fieldset></form>}
 
-      <ProfileActivity profile={profile} onOpenFocus={onOpenFocus} />
+      <FramesInventory profile={profile} wallet={wallet} />
+      <ProfileActivity profile={profile} onOpenFocus={onOpenFocus} frameId={wallet.equippedFrameId} />
       <p className="studonium-profile-footnote">Tus fotos, tu perfil y tu actividad se guardan solo en este navegador. No se publican en GitHub ni se sincronizan entre dispositivos. Borrar los datos del sitio elimina esta información.</p>
     </section>
   );

@@ -2,8 +2,9 @@ import { useEffect, useState } from 'react';
 import { formatStudyMinutes, localDayKey, readStudySessions, saveSessionReview } from './activity.storage';
 import type { StudySession } from './activity.storage';
 import type { LocalProfile } from './profile.storage';
+import FramedAvatar from '../frames/FramedAvatar';
 
-export default function ProfileActivity({ profile, onOpenFocus }: { profile: LocalProfile; onOpenFocus: () => void }) {
+export default function ProfileActivity({ profile, onOpenFocus, frameId }: { profile: LocalProfile; onOpenFocus: () => void; frameId: string | null }) {
   const [activity, setActivity] = useState(readStudySessions);
   const [now, setNow] = useState(() => new Date());
   const [actionMessage, setActionMessage] = useState('');
@@ -88,7 +89,7 @@ export default function ProfileActivity({ profile, onOpenFocus }: { profile: Loc
               {recent.map((session) => (
                 <li key={session.id}>
                   <article className="studonium-profile-post" aria-label={`Sesión publicada de ${session.minutes} minutos`}>
-                    <header><span className="studonium-profile-post-avatar">{profile.avatar ? <img src={profile.avatar} alt="" /> : profile.displayName.slice(0, 1).toUpperCase()}</span><div><strong>{profile.displayName}</strong><span>@{profile.username}</span></div></header>
+                    <header><span className={`studonium-profile-post-avatar ${frameId ? 'has-frame' : ''}`}><FramedAvatar src={profile.avatar} name={profile.displayName} frameId={frameId} decorative /></span><div><strong>{profile.displayName}</strong><span>@{profile.username}</span></div></header>
                     <div className="studonium-profile-post-achievement"><span aria-hidden="true">✧</span><p><strong>{formatStudyMinutes(session.minutes)}</strong> de concentración<small>Sesión completada</small></p><span aria-hidden="true">✓</span></div>
                     {session.comment && <p className="studonium-profile-post-comment">{session.comment}</p>}
                     <footer><time dateTime={session.completedAt}>{new Intl.DateTimeFormat('es-ES', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }).format(new Date(session.completedAt))}</time><span>En mi actividad</span></footer>
