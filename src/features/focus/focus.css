@@ -1,0 +1,76 @@
+.studonium-focus { padding-top: 34px; }
+.studonium-focus-heading { display: flex; justify-content: space-between; align-items: center; gap: 20px; margin-bottom: 27px; }
+.studonium-focus-eyebrow { margin: 0 0 10px; color: #867593; font-size: 9px; font-weight: 750; letter-spacing: 1.4px; line-height: 1.7; }
+.studonium-focus-heading h1 { margin: 0; color: #342c46; font-size: clamp(30px, 3vw, 39px); letter-spacing: -1.4px; }
+.studonium-focus-heading h1 span { color: #8964ae; }
+.studonium-focus-heading > div > p:last-child { margin: 9px 0 0; color: #776f83; font-size: 13px; }
+.studonium-focus-sticker { padding: 12px 17px; flex-shrink: 0; border: 1px dashed #d4b9cc; border-radius: 12px; background: #f6e8ef; color: #8a607a; font-size: 12px; transform: rotate(3deg); }
+.studonium-focus-layout { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(260px, 1fr); align-items: start; gap: 22px; }
+.studonium-focus-clock-card { min-width: 0; padding: 25px; border: 1px solid #dfd0eb; border-radius: 26px; background: radial-gradient(ellipse at 50% 40%, #fffafd 0%, #f3eaf9 65%, #ede1f5 100%); box-shadow: 0 8px 30px #64427b08; text-align: center; }
+.studonium-focus-clock-top { display: flex; justify-content: space-between; flex-wrap: wrap; align-items: center; gap: 10px; text-align: left; }
+.studonium-focus-mode { color: #8b6d9b; font-size: 8px; letter-spacing: 1.1px; font-weight: 700; }
+.studonium-focus-status { padding: 6px 10px; border-radius: 20px; background: #fff9fd; color: #8a6c97; font-size: 10px; }
+.studonium-focus-status.is-running { background: #e4efe5; color: #4f7356; }
+.studonium-focus-status.is-paused { background: #fff1d6; color: #8a6d35; }
+.studonium-focus-status.is-completed { background: #e1eedf; color: #507a4e; }
+.studonium-focus-dial { position: relative; width: min(100%, 350px); aspect-ratio: 1; margin: 23px auto 8px; }
+.studonium-focus-ring { display: block; width: 100%; height: 100%; overflow: visible; transform: rotate(-90deg); }
+.studonium-focus-ring circle { fill: none; stroke-width: 9px; }
+.studonium-focus-ring-track { stroke: #dfd1eb; }
+.studonium-focus-ring-progress { stroke: #9771bb; stroke-linecap: round; }
+.studonium-focus-time-content { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; }
+.studonium-focus-flower { color: #bc93b6; font-size: 45px; line-height: 1; margin-bottom: 9px; }
+.studonium-focus-time { max-width: 85%; overflow-wrap: anywhere; font-size: clamp(34px, 4.8vw, 64px); font-weight: 750; line-height: 1.2; letter-spacing: -2px; font-variant-numeric: tabular-nums; color: #5c416e; }
+.studonium-focus-time-label { color: #927a9f; font-size: 10px; }
+.studonium-focus-spark { position: absolute; z-index: 1; padding: 5px; background: #f3eaf9; color: #c6a366; line-height: 1; }
+.studonium-focus-spark.spark-left { top: 20%; left: 2%; font-size: 31px; }
+.studonium-focus-spark.spark-right { bottom: 16%; right: 4%; font-size: 35px; color: #bd8fa7; }
+.studonium-focus-encouragement { min-height: 40px; margin: 10px 0 16px; color: #7b6388; font-size: 12px; line-height: 1.7; }
+.studonium-focus-controls { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 22px; }
+.studonium-focus-primary, .studonium-focus-secondary { min-height: 45px; padding: 11px 18px; border-radius: 12px; font-size: 12px; font-weight: 700; }
+.studonium-focus-primary { border: 1px solid #705096; background: #705096; color: white; transition: background 150ms ease; }
+.studonium-focus-primary:hover { background: #60417f; }
+.studonium-focus-secondary { border: 1px solid #d7c3e3; background: #fff9fd; color: #7e5a95; }
+.studonium-focus-session-summary { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px 28px; padding-top: 19px; border-top: 1px dashed #d9c6e6; color: #8c7798; font-size: 10px; }
+.studonium-focus-session-summary strong { color: #78538e; }
+.studonium-focus-side { display: grid; gap: 20px; min-width: 0; }
+.studonium-focus-settings { padding: 25px; border: 1px solid #e9dfeb; border-radius: 23px; background: #fffdfa; }
+.studonium-focus-settings h2 { margin: 0 0 10px; font-size: 20px; color: #614871; letter-spacing: -.5px; }
+.studonium-focus-settings > p:not(.studonium-focus-eyebrow) { color: #89778f; font-size: 12px; line-height: 1.7; }
+.studonium-focus-duration-label { display: block; margin: 23px 0 9px; font-size: 11px; font-weight: 700; color: #7f648d; }
+.studonium-focus-duration-controls { display: grid; grid-template-columns: 42px minmax(0, 1fr) 42px; gap: 8px; }
+.studonium-focus-duration-controls button { min-height: 49px; border: 1px solid #e1d3e8; border-radius: 11px; background: #f6eef9; color: #876397; font-size: 23px; }
+.studonium-focus-duration-controls input { width: 100%; min-width: 0; padding: 10px; border: 1px solid #dfd0e7; border-radius: 11px; background: #fffcff; color: #6b467e; text-align: center; font-size: 23px; font-weight: 650; }
+.studonium-focus-presets { display: flex; flex-wrap: wrap; gap: 8px; margin: 13px 0; }
+.studonium-focus-presets button { flex: 1; min-height: 37px; padding: 7px; border: 1px solid #e5d9eb; border-radius: 9px; background: #fffafd; color: #8b7298; font-size: 11px; white-space: nowrap; }
+.studonium-focus-presets button[aria-pressed="true"] { background: #eadef4; border-color: #c8acda; color: #6d4886; }
+.studonium-focus button:disabled { opacity: .5; cursor: not-allowed; }
+.studonium-focus-help { min-height: 40px; font-size: 10px !important; }
+.studonium-focus-start { width: 100%; margin-top: 5px; }
+.studonium-focus-rewards { position: relative; padding: 25px; overflow: hidden; border: 1px solid #ecdac4; border-radius: 23px; background: #faf0e2; }
+.studonium-focus-coming { color: #9a7c53; font-size: 8px; letter-spacing: 1.2px; font-weight: 750; }
+.studonium-focus-coin { display: grid; place-items: center; width: 49px; height: 49px; margin: 17px 0; border: 4px solid #e4bf73; border-radius: 50%; background: #ffe4a5; box-shadow: 3px 3px 0 #d1a45d; color: #a57c32; font-size: 26px; transform: rotate(-12deg); }
+.studonium-focus-rewards h2 { margin: 0 0 9px; font-size: 18px; line-height: 1.35; color: #89704e; }
+.studonium-focus-rewards p { margin: 0; color: #8d7b64; font-size: 11px; line-height: 1.8; }
+.studonium-focus-footnote { margin: 22px 0; max-width: 740px; color: #8e7c98; font-size: 11px; line-height: 1.8; }
+.studonium-focus-reset { max-width: 360px; margin: 0 auto 20px; padding: 14px; border: 1px solid #e5c4cf; border-radius: 13px; background: #fff2f4; }
+.studonium-focus-reset p { margin: 0 0 12px; color: #966779; font-size: 11px; line-height: 1.7; }
+.studonium-focus-reset button { margin: 3px; }
+.studonium-focus-error { color: #a24f61 !important; }
+@media (max-width: 1100px) {
+  .studonium-focus-layout { grid-template-columns: minmax(0, 1fr); }
+  .studonium-focus-side { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
+  .studonium-focus-sticker { display: none; }
+  .studonium-focus-time { font-size: 60px; }
+}
+@media (max-width: 700px) {
+  .studonium-focus { padding-top: 25px; }
+  .studonium-focus-heading > div > p:last-child { font-size: 12px; }
+  .studonium-focus-side { grid-template-columns: 1fr; }
+  .studonium-focus-clock-card { padding: 19px 15px; }
+  .studonium-focus-time { font-size: clamp(37px, 12vw, 60px); }
+  .studonium-focus-settings, .studonium-focus-rewards { padding: 23px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .studonium-focus-primary { transition: none; }
+}

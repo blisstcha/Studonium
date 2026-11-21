@@ -2,6 +2,7 @@ import { useState } from 'react';
 import './App.css';
 import Calendar from './features/calendar/Calendar';
 import CalendarReminders from './features/calendar/CalendarReminders';
+import Focus from './features/focus/Focus';
 
 type IconName = 'home' | 'calendar' | 'focus' | 'social' | 'profile';
 
@@ -74,7 +75,7 @@ const initialGoals = [
 export default function App() {
   const [goals, setGoals] = useState(initialGoals);
   const [notice, setNotice] = useState('');
-  const [activePage, setActivePage] = useState<'home' | 'calendar'>('home');
+  const [activePage, setActivePage] = useState<'home' | 'calendar' | 'focus'>('home');
 
   const completed = goals.filter((goal) => goal.done).length;
 
@@ -112,7 +113,7 @@ export default function App() {
               className={`nav-item ${item.name === activePage ? 'active' : ''}`}
               aria-current={item.name === activePage ? 'page' : undefined}
               onClick={() => {
-                if (item.name === 'home' || item.name === 'calendar') {
+                if (item.name === 'home' || item.name === 'calendar' || item.name === 'focus') {
                   setActivePage(item.name);
                   setNotice('');
                   document.getElementById('inicio')?.focus();
@@ -147,7 +148,7 @@ export default function App() {
           <span className="page-label">
             {activePage === 'home'
               ? 'Tu espacio de estudio'
-              : 'Tu agenda personal'}
+              : activePage === 'calendar' ? 'Tu agenda personal' : 'Tu espacio de concentración'}
           </span>
           <div className="user-area">
             <span className="demo-tag">Vista de ejemplo</span>
@@ -163,6 +164,9 @@ export default function App() {
         </header>
         <CalendarReminders />
         {activePage === 'calendar' && <Calendar />}
+        <div hidden={activePage !== 'focus'}>
+          <Focus />
+        </div>
 
         <div hidden={activePage !== 'home'}>
           <section className="greeting" aria-labelledby="greeting-title">
@@ -195,7 +199,11 @@ export default function App() {
               <button
                 type="button"
                 className="primary-button"
-                onClick={() => showUpcoming('El temporizador de concentración')}
+                onClick={() => {
+                  setActivePage('focus');
+                  setNotice('');
+                  document.getElementById('inicio')?.focus();
+                }}
               >
                 <Icon name="focus" />
                 Empezar concentración
@@ -372,3 +380,4 @@ export default function App() {
     </div>
   );
 }
+
