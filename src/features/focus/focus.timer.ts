@@ -8,7 +8,7 @@ export interface FocusTimer {
 }
 
 export function validMinutes(minutes: number): boolean {
-  return Number.isSafeInteger(minutes) && minutes >= 30 &&
+  return Number.isSafeInteger(minutes) && minutes >= 30 && minutes <= 120 &&
     minutes % 10 === 0 && Number.isSafeInteger(minutes * 60_000);
 }
 

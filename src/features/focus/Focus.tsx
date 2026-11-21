@@ -40,7 +40,7 @@ export default function Focus() {
     event.preventDefault();
     if (locked) return;
     if (!valid) {
-      setError('Elige 30 minutos o más, en saltos de 10: 30, 40, 50…');
+      setError('Elige entre 30 y 120 minutos, en saltos de 10.');
       return;
     }
     setError('');
@@ -131,26 +131,26 @@ export default function Focus() {
           <form className="studonium-focus-settings" onSubmit={beginSession}>
             <p className="studonium-focus-eyebrow">DALE UN HUEQUITO A TU OBJETIVO</p>
             <h2>¿Cuánto tiempo para ti?</h2>
-            <p>Elige una sesión desde 30 minutos, en saltos de 10.</p>
+            <p>Elige entre 30 y 120 minutos (2 horas), en saltos de 10.</p>
             <label className="studonium-focus-duration-label" htmlFor="focus-minutes">Duración en minutos</label>
             <div className="studonium-focus-duration-controls">
               <button type="button" aria-label="Restar diez minutos" disabled={locked || !valid || minutes <= 30}
                 onClick={() => setMinutesInput(String(minutes - 10))}>−</button>
-              <input id="focus-minutes" type="number" min="30" step="10" required inputMode="numeric"
+              <input id="focus-minutes" type="number" min="30" max="120" step="10" required inputMode="numeric"
                 value={minutesInput} disabled={locked} aria-describedby="focus-duration-help"
                 onChange={(event) => { setMinutesInput(event.target.value); setError(''); }} />
               <button type="button" aria-label="Añadir diez minutos" disabled={locked || !valid || !validMinutes(minutes + 10)}
                 onClick={() => setMinutesInput(String(minutes + 10))}>＋</button>
             </div>
             <div className="studonium-focus-presets" aria-label="Duraciones habituales">
-              {[30, 60, 90].map((preset) => (
+              {[30, 60, 90, 120].map((preset) => (
                 <button key={preset} type="button" disabled={locked} aria-pressed={minutes === preset}
                   onClick={() => { setMinutesInput(String(preset)); setError(''); }}>{preset} min</button>
               ))}
             </div>
             <p id="focus-duration-help" className="studonium-focus-help">{locked
               ? 'La duración se mantiene durante la sesión. Reinicia para cambiarla.'
-              : 'Puedes escribir otra duración: 40, 50, 70 minutos…'}</p>
+              : 'Desde 30 hasta 120 minutos, siempre en saltos de 10.'}</p>
             {error && <p className="studonium-focus-error" role="alert">{error}</p>}
             {!locked && <button type="submit" className="studonium-focus-primary studonium-focus-start">
               {timer.phase === 'completed' ? '▷ Empezar otra sesión' : '▷ Empezar mi sesión'}
@@ -161,7 +161,7 @@ export default function Focus() {
             <span className="studonium-focus-coming">PRÓXIMAMENTE</span>
             <span className="studonium-focus-coin" aria-hidden="true">✦</span>
             <h2 id="focus-rewards-title">Tu constancia tendrá premio.</h2>
-            <p>Las sesiones desde 30 minutos serán la base de los futuros puntos de estudio. Todavía no se conceden puntos.</p>
+            <p>Las sesiones de 30 a 120 minutos serán la base de los futuros puntos de estudio. Todavía no se conceden puntos.</p>
           </section>
         </aside>
       </div>
