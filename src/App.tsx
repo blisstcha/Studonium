@@ -6,8 +6,12 @@ import Focus from './features/focus/Focus';
 import Profile from './features/profile/Profile';
 import { readProfile, writeProfile } from './features/profile/profile.storage';
 import type { LocalProfile } from './features/profile/profile.storage';
+import Shop from './features/shop/Shop';
+import { useWallet } from './features/shop/useWallet';
+import { formatCoins } from './features/shop/shop.catalog';
+import type { ShopCategory } from './features/shop/shop.catalog';
 
-type IconName = 'home' | 'calendar' | 'focus' | 'social' | 'profile';
+type IconName = 'home' | 'calendar' | 'focus' | 'social' | 'profile' | 'shop';
 
 function Icon({ name }: { name: IconName }) {
   const paths: Record<IconName, string> = {
@@ -17,6 +21,7 @@ function Icon({ name }: { name: IconName }) {
       'M9 2h6m-3 4v2m0 4v4l3 2M19 6l2 2M12 6a8 8 0 1 0 0 16 8 8 0 0 0 0-16Z',
     social:
       'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2m20 0v-2a4 4 0 0 0-3-3.87M9 3a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm8 0a4 4 0 0 1 0 8',
+    shop: 'M3 9l2-6h14l2 6M3 9v3a3 3 0 0 0 5 2 3 3 0 0 0 4 0 3 3 0 0 0 4 0 3 3 0 0 0 5-2V9M5 15v6h14v-6M9 21v-5h6v5M3 9h18',
     profile: 'M20 21a8 8 0 0 0-16 0M12 3a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z',
   };
 
@@ -42,6 +47,7 @@ const navigation: { name: IconName; label: string }[] = [
   { name: 'calendar', label: 'Agenda' },
   { name: 'focus', label: 'Focus' },
   { name: 'social', label: 'Social' },
+  { name: 'shop', label: 'Tienda' },
   { name: 'profile', label: 'Perfil' },
 ];
 
@@ -78,7 +84,17 @@ const initialGoals = [
 export default function App() {
   const [goals, setGoals] = useState(initialGoals);
   const [notice, setNotice] = useState('');
-  const [activePage, setActivePage] = useState<'home' | 'calendar' | 'focus' | 'profile'>('home');
+  const [activePage, setActivePage] = useState<'home' | 'calendar' | 'focus' | 'profile' | 'shop'>('home');
+
+  const wallet = useWallet();
+  const [shopCategory, setShopCategory] = useState<ShopCategory>('coins');
+
+  function openCoinShop() {
+    setShopCategory('coins');
+    setActivePage('shop');
+    setNotice('');
+    document.getElementById('inicio')?.focus();
+  }
 
   const [profileState, setProfileState] = useState(readProfile);
   const profile = profileState.profile;
@@ -142,9 +158,10 @@ export default function App() {
               key={item.name}
               type="button"
               className={`nav-item ${item.name === activePage ? 'active' : ''}`}
+              aria-label={item.label}
               aria-current={item.name === activePage ? 'page' : undefined}
               onClick={() => {
-                if (item.name === 'home' || item.name === 'calendar' || item.name === 'focus' || item.name === 'profile') {
+                if (item.name === 'home' || item.name === 'calendar' || item.name === 'focus' || item.name === 'profile' || item.name === 'shop') {
                   setActivePage(item.name);
                   setNotice('');
                   document.getElementById('inicio')?.focus();
@@ -179,9 +196,13 @@ export default function App() {
           <span className="page-label">
             {activePage === 'home'
               ? 'Tu espacio de estudio'
-              : activePage === 'calendar' ? 'Tu agenda personal' : activePage === 'profile' ? 'Tu pequeño universo' : 'Tu espacio de concentración'}
+              : activePage === 'calendar' ? 'Tu agenda personal' : activePage === 'profile' ? 'Tu pequeño universo' : activePage === 'shop' ? 'Tu tienda Studonium' : 'Tu espacio de concentración'}
           </span>
           <div className="user-area">
+            <div className="studonium-wallet">
+              <span className="studonium-wallet-value" aria-label={wallet.balance === null ? 'Saldo no disponible' : `${wallet.balance} monedas`}>{wallet.balance === null ? '—' : formatCoins(wallet.balance)}</span>
+              <button type="button" className="studonium-wallet-add" aria-label="Comprar monedas" title="Comprar monedas" onClick={openCoinShop}>＋</button>
+            </div>
             <span className="demo-tag">{activePage === 'home' ? 'Vista de ejemplo' : 'Modo local'}</span>
             <button
               className="avatar studonium-profile-topbar-avatar"
@@ -194,6 +215,7 @@ export default function App() {
           </div>
         </header>
         <CalendarReminders />
+        {activePage === 'shop' && <Shop category={shopCategory} onCategoryChange={setShopCategory} walletError={wallet.error} />}
         {activePage === 'profile' && <Profile profile={profile} storageWarning={profileState.error} onSave={saveLocalProfile} onOpenFocus={openFocus} />}
         {activePage === 'calendar' && <Calendar />}
         <div hidden={activePage !== 'focus'}>
