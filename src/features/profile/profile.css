@@ -84,6 +84,28 @@
 .studonium-profile-topbar-avatar img { width: 100%; height: 100%; object-fit: cover; }
 .studonium-focus-history-warning { margin-top: 16px; color: #986273; font-size: 11px; line-height: 1.7; }
 .studonium-focus-history-warning button { display: block; margin: 10px auto 0; }
+.studonium-profile-posts { display: grid; gap: 18px; padding: 0; margin: 21px 0 0; list-style: none; }
+.studonium-profile-post { min-width: 0; padding: 17px; border: 1px solid #e4d5eb; border-radius: 17px; background: #fffaff; }
+.studonium-profile-post > header { display: flex; align-items: center; gap: 10px; }
+.studonium-profile-post-avatar { display: grid; place-items: center; flex-shrink: 0; width: 38px; height: 38px; overflow: hidden; border: 2px solid #fff; border-radius: 50%; background: #e1cdec; color: #9a76aa; font-size: 17px; font-weight: 700; }
+.studonium-profile-post-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.studonium-profile-post > header > div { display: grid; gap: 3px; min-width: 0; }
+.studonium-profile-post > header strong { color: #886298; font-size: 12px; overflow-wrap: anywhere; }
+.studonium-profile-post > header > div > span { color: #b098ba; font-size: 10px; overflow-wrap: anywhere; }
+.studonium-profile-post-achievement { display: flex; align-items: center; gap: 10px; margin-top: 15px; padding: 13px; border-radius: 13px; background: #f0e7f7; color: #9470a8; }
+.studonium-profile-post-achievement > span:first-child { font-size: 27px; }
+.studonium-profile-post-achievement > span:last-child { margin-left: auto; color: #99af8f; font-size: 19px; }
+.studonium-profile-post-achievement p { margin: 0; color: #a087af; font-size: 11px; line-height: 1.7; }
+.studonium-profile-post-achievement strong { color: #8a639d; }
+.studonium-profile-post-achievement small { display: block; color: #b098be; font-size: 9px; }
+.studonium-profile-post-comment { margin: 15px 0; color: #90749c; font-size: 13px; line-height: 1.9; white-space: pre-wrap; overflow-wrap: anywhere; }
+.studonium-profile-post > footer { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; padding-top: 12px; margin-top: 12px; border-top: 1px dashed #e9dced; color: #b49dc0; font-size: 9px; line-height: 1.7; }
+.studonium-profile-unpublish { display: block; min-height: 34px; padding: 9px 0 0; border: 0; background: transparent; color: #aa87b9; font-size: 10px; text-decoration: underline; text-underline-offset: 3px; }
+.studonium-profile-private-history { margin-top: 20px; padding-top: 15px; border-top: 1px dashed #e5d7eb; }
+.studonium-profile-private-history summary { min-height: 38px; color: #a081b2; font-size: 11px; cursor: pointer; }
+.studonium-profile-private-history summary:focus-visible { outline: 3px solid #a982c1; outline-offset: 3px; border-radius: 5px; }
+.studonium-profile-private-history > p { color: #b19cba; font-size: 10px; line-height: 1.8; }
+.studonium-profile-private-comment { margin: 5px 0 0; color: #a58bb0; font-size: 11px; line-height: 1.8; white-space: pre-wrap; overflow-wrap: anywhere; }
 @media (max-width: 1100px) { .studonium-profile-activity-grid { grid-template-columns: 1fr; } .studonium-profile-local-badge { display: none; } }
 @media (max-width: 700px) {
   .studonium-profile { padding-top: 25px; }

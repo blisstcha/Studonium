@@ -12,7 +12,7 @@ const labels = {
   completed: '¡Sesión completada! Ahora, un descanso merecido.',
 };
 
-export default function Focus() {
+export default function Focus({ onSessionCompleted }: { onSessionCompleted: (session: StudySession) => void }) {
   const [minutesInput, setMinutesInput] = useState('30');
   const [timer, setTimer] = useState(() => createTimer(30));
   const [error, setError] = useState('');
@@ -48,6 +48,7 @@ export default function Focus() {
       saveStudySession(session);
       pendingSession.current = null;
       setHistoryWarning('');
+      onSessionCompleted(session);
       return true;
     } catch {
       setHistoryWarning('Has completado la sesión, pero no se ha podido guardar en tu perfil. Comprueba el almacenamiento del navegador y reintenta antes de cerrar la página.');
@@ -73,6 +74,8 @@ export default function Focus() {
       id: typeof crypto.randomUUID === 'function' ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(36).slice(2)}`,
       minutes,
       completedAt: '',
+      comment: '',
+      published: false,
     };
     setHistoryWarning('');
     setTimer(startTimer(createTimer(minutes), performance.now()));

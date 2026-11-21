@@ -3,6 +3,8 @@ import './App.css';
 import Calendar from './features/calendar/Calendar';
 import CalendarReminders from './features/calendar/CalendarReminders';
 import Focus from './features/focus/Focus';
+import SessionReview from './features/focus/SessionReview';
+import type { StudySession } from './features/profile/activity.storage';
 import Profile from './features/profile/Profile';
 import { readProfile, writeProfile } from './features/profile/profile.storage';
 import type { LocalProfile } from './features/profile/profile.storage';
@@ -84,6 +86,7 @@ const initialGoals = [
 export default function App() {
   const [goals, setGoals] = useState(initialGoals);
   const [notice, setNotice] = useState('');
+  const [sessionToReview, setSessionToReview] = useState<StudySession | null>(null);
   const [activePage, setActivePage] = useState<'home' | 'calendar' | 'focus' | 'profile' | 'shop'>('home');
 
   const wallet = useWallet();
@@ -219,7 +222,7 @@ export default function App() {
         {activePage === 'profile' && <Profile profile={profile} storageWarning={profileState.error} onSave={saveLocalProfile} onOpenFocus={openFocus} />}
         {activePage === 'calendar' && <Calendar />}
         <div hidden={activePage !== 'focus'}>
-          <Focus />
+          <Focus onSessionCompleted={setSessionToReview} />
         </div>
 
         <div hidden={activePage !== 'home'}>
@@ -418,6 +421,13 @@ export default function App() {
           </footer>
         </div>
       </main>
+
+      {sessionToReview && <SessionReview key={sessionToReview.id} session={sessionToReview} onFinished={(published) => {
+        setSessionToReview(null);
+        if (published) setActivePage('profile');
+        setNotice(published ? 'Tu sesión ya aparece en la actividad de tu perfil.' : 'Sesión guardada sin publicar. Tu tiempo y tus estadísticas ya están actualizados.');
+        window.requestAnimationFrame(() => document.getElementById('inicio')?.focus());
+      }} />}
 
       {notice && (
         <div className="notice">

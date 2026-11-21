@@ -2,6 +2,8 @@ export interface StudySession {
   id: string;
   minutes: number;
   completedAt: string;
+  comment?: string;
+  published?: boolean;
 }
 
 const ACTIVITY_KEY = 'studonium.study-activity.v1';
@@ -11,7 +13,9 @@ function validSession(value: unknown): value is StudySession {
   const session = value as Record<string, unknown>;
   return typeof session.id === 'string' && session.id.length > 0 &&
     typeof session.minutes === 'number' && Number.isInteger(session.minutes) && session.minutes >= 30 && session.minutes <= 120 && session.minutes % 10 === 0 &&
-    typeof session.completedAt === 'string' && /^\d{4}-\d{2}-\d{2}T/.test(session.completedAt) && Number.isFinite(Date.parse(session.completedAt));
+    typeof session.completedAt === 'string' && /^\d{4}-\d{2}-\d{2}T/.test(session.completedAt) && Number.isFinite(Date.parse(session.completedAt)) &&
+    (session.comment === undefined || (typeof session.comment === 'string' && session.comment.length <= 500)) &&
+    (session.published === undefined || typeof session.published === 'boolean');
 }
 
 export function readStudySessions(): { sessions: StudySession[]; error: string } {
@@ -34,6 +38,18 @@ export function saveStudySession(session: StudySession): void {
   if (stored.error) throw new Error(stored.error);
   if (stored.sessions.some((item) => item.id === session.id)) return;
   localStorage.setItem(ACTIVITY_KEY, JSON.stringify([...stored.sessions, session]));
+  window.dispatchEvent(new Event('studonium:activity-changed'));
+}
+
+export function saveSessionReview(id: string, comment: string, published: boolean): void {
+  if (typeof comment !== 'string' || comment.length > 500 || typeof published !== 'boolean') throw new Error('Invalid review');
+  const stored = readStudySessions();
+  if (stored.error) throw new Error(stored.error);
+  if (!stored.sessions.some((session) => session.id === id)) throw new Error('Session not found');
+  const sessions = stored.sessions.map((session) => session.id === id
+    ? { ...session, comment: comment.trim(), published }
+    : session);
+  localStorage.setItem(ACTIVITY_KEY, JSON.stringify(sessions));
   window.dispatchEvent(new Event('studonium:activity-changed'));
 }
 

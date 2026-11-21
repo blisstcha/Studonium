@@ -1,0 +1,21 @@
+.studonium-session-review { position: fixed; width: min(460px, calc(100% - 28px)); max-height: calc(100dvh - 32px); margin: auto; padding: 30px; overflow-y: auto; border: 1px solid #d8c1e6; border-radius: 25px; background: #fffaf7; color: #6e4c80; box-shadow: 0 25px 80px #4c2b6433; text-align: center; }
+.studonium-session-review::backdrop { background: #3a264d70; backdrop-filter: blur(4px); }
+.studonium-session-review-close { position: absolute; top: 15px; right: 15px; display: grid; place-items: center; width: 34px; height: 34px; padding: 0; border: 0; border-radius: 50%; background: #f0e5f6; color: #9371a4; font-size: 25px; }
+.studonium-session-review-flower { display: grid; place-items: center; width: 66px; height: 66px; margin: 0 auto 17px; border: 1px dashed #d1b8df; border-radius: 22px; background: #f1e7f8; color: #b18ac5; font-size: 43px; transform: rotate(-7deg); }
+.studonium-session-review-eyebrow { color: #aa8db6; font-size: 9px; font-weight: 750; letter-spacing: 1.3px; }
+.studonium-session-review h2 { margin: 10px 0; color: #715083; font-size: 29px; letter-spacing: -.8px; }
+#session-review-description { margin: 0 0 24px; color: #9b82a5; font-size: 13px; line-height: 1.8; }
+.studonium-session-review form { text-align: left; }
+.studonium-session-review label { display: block; margin-bottom: 10px; color: #876196; font-size: 13px; font-weight: 650; }
+.studonium-session-review textarea { width: 100%; min-height: 116px; padding: 13px; border: 1px solid #dfcce9; border-radius: 13px; background: #fffdfd; color: #725882; font: inherit; font-size: 14px; line-height: 1.7; resize: vertical; }
+.studonium-session-review textarea::placeholder { color: #b09bbb; }
+.studonium-session-review textarea:focus-visible { outline: 3px solid #a982c1; outline-offset: 3px; }
+.studonium-session-review-caption { display: flex; justify-content: space-between; gap: 12px; margin-top: 7px; color: #b39abc; font-size: 10px; }
+#session-review-help { margin: 16px 0 20px; color: #a18aaa; font-size: 11px; line-height: 1.8; }
+.studonium-session-review-publish { width: 100%; min-height: 46px; padding: 12px; border: 0; border-radius: 13px; background: #86609f; color: white; font-size: 12px; font-weight: 700; }
+.studonium-session-review-publish:hover { background: #73508c; }
+.studonium-session-review-private { display: block; width: 100%; min-height: 44px; margin-top: 7px; padding: 10px; border: 0; border-radius: 11px; background: transparent; color: #9f81ae; font-size: 12px; }
+.studonium-session-review-private:hover { background: #f5ecfa; }
+.studonium-session-review-note { margin: 13px 0 0; color: #b49cbe; font-size: 10px; }
+.studonium-session-review-error { padding: 12px; border: 1px solid #e5bcc7; border-radius: 11px; background: #fff0f3; color: #a35b72; font-size: 11px; line-height: 1.7; }
+@media (max-width: 700px) { .studonium-session-review { padding: 25px 20px; } .studonium-session-review textarea { font-size: 16px; } }

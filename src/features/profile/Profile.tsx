@@ -115,7 +115,7 @@ export default function Profile({ profile, storageWarning, onSave, onOpenFocus }
 
       {editing && <form className="studonium-profile-card studonium-profile-edit-form" onSubmit={submitProfile} aria-labelledby="profile-edit-title"><h2 id="profile-edit-title">Dale tu toque</h2><fieldset disabled={disabled}><label>Nombre visible<input autoFocus required maxLength={40} value={displayName} onChange={(event) => setDisplayName(event.target.value)} autoComplete="nickname" /></label><label>Usuario<input required minLength={3} maxLength={25} value={username} onChange={(event) => setUsername(event.target.value)} autoCapitalize="none" spellCheck={false} aria-describedby="profile-username-help" /></label><p id="profile-username-help">Entre 3 y 24 letras, números o guiones bajos. Es un nombre local, todavía no una cuenta ni un usuario reservado.</p><label>Un poquito sobre ti<textarea rows={3} maxLength={160} value={bio} onChange={(event) => setBio(event.target.value)} /></label><div className="studonium-profile-edit-actions"><button type="button" className="studonium-profile-secondary" onClick={() => { setEditing(false); setError(''); }}>Cancelar</button><button type="submit" className="studonium-profile-primary">Guardar perfil</button></div></fieldset></form>}
 
-      <ProfileActivity onOpenFocus={onOpenFocus} />
+      <ProfileActivity profile={profile} onOpenFocus={onOpenFocus} />
       <p className="studonium-profile-footnote">Tus fotos, tu perfil y tu actividad se guardan solo en este navegador. No se publican en GitHub ni se sincronizan entre dispositivos. Borrar los datos del sitio elimina esta información.</p>
     </section>
   );
